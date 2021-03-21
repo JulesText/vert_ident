@@ -1,0 +1,11 @@
+matplotlib
+numpy 
+pandas 
+scipy 
+scikit-learn 
+LightGBM 
+CatBoost
+TensorFlow 
+PyTorch 
+seaborn 
+statsmodels 
