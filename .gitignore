@@ -1,3 +1,17 @@
+# server files
+.ftpconfig
+.htaccess
+.ftpquota
+.ftpignore
+error_log
+
+# macOS system files
+*.DS_Store
+.DS_Store
+
+# installation-specific configuration
+config.php
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
