@@ -6,8 +6,8 @@
 error_log
 
 # potentially large files
-.csv
-.zip
+*.csv
+*.zip
 data.h5
 assets.h5
 data.npy
