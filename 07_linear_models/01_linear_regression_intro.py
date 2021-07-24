@@ -1,13 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # ## Linear Regression - Introduction
-# 
+#
 # Linear regression relates a continuous response (dependent) variable to one or more predictors (features, independent variables), using the assumption that the relationship is linear in nature:
 # - The relationship between each feature and the response is a straight line when we keep other features constant.
 # - The slope of this line does not depend on the values of the other variables.
 # - The effects of each variable on the response are additive (but we can include new variables that represent the interaction of two variables).
-# 
+#
 # In other words, the model assumes that the response variable can be explained or predicted by a linear combination of the features, except for random deviations from this linear relationship.
 
 # ## Imports & Settings
@@ -58,15 +58,15 @@ plt.tight_layout()
 
 
 # Our linear model with a single independent variable on the left-hand side assumes the following form:
-# 
+#
 # $$y = \beta_0 + \beta_1 X_1 + \epsilon$$
-# 
+#
 # $\epsilon$ accounts for the deviations or errors that we will encounter when our data do not actually fit a straight line. When $\epsilon$ materializes, that is when we run the model of this type on actual data, the errors are called **residuals**.
 
 # #### Estimate a simple regression with statsmodels
 
-# The upper part of the summary displays the dataset characteristics, namely the estimation method, the number of observations and parameters, and indicates that standard error estimates do not account for heteroskedasticity. 
-# 
+# The upper part of the summary displays the dataset characteristics, namely the estimation method, the number of observations and parameters, and indicates that standard error estimates do not account for heteroskedasticity.
+#
 # The middle panel shows the coefficient values that closely reflect the artificial data generating process. We can confirm that the estimates displayed in the middle of the summary result can be obtained using the OLS formula derived previously:
 
 # In[5]:
@@ -96,16 +96,16 @@ data['residuals'] = model.resid
 ax = data.plot.scatter(x='X', y='Y', c='darkgrey', figsize=(14,6))
 data.plot.line(x='X', y='y-hat', ax=ax);
 for _, row in data.iterrows():
-    plt.plot((row.X, row.X), (row.Y, row['y-hat']), 'k-')    
+    plt.plot((row.X, row.X), (row.Y, row['y-hat']), 'k-')
 sns.despine()
 plt.tight_layout();
 
 
 # ### Multiple Regression
-# 
+#
 
 # For two independent variables, the model simply changes as follows:
-# 
+#
 # $$y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon$$
 
 # #### Generate new random data
@@ -136,9 +136,9 @@ y = data['Y']
 # #### Estimate multiple regression model with statsmodels
 
 # The upper right part of the panel displays the goodness-of-fit measures just discussed, alongside the F-test that rejects the hypothesis that all coefficients are zero and irrelevant. Similarly, the t-statistics indicate that intercept and both slope coefficients are, unsurprisingly, highly significant.
-# 
+#
 # The bottom part of the summary contains the residual diagnostics. The left panel displays skew and kurtosis that are used to test the normality hypothesis. Both the Omnibus and the Jarque—Bera test fails to reject the null hypothesis that the residuals are normally distributed. The Durbin—Watson statistic tests for serial correlation in the residuals and has a value near 2 which, given 2 parameters and 625 observations, fails to reject the hypothesis of no serial correlation.
-# 
+#
 # Lastly, the condition number provides evidence about multicollinearity: it is the ratio of the square roots of the largest and the smallest eigenvalue of the design matrix that contains the input data. A value above 30 suggests that the regression may have significant multicollinearity.
 
 # In[10]:
@@ -194,11 +194,11 @@ plt.tight_layout();
 
 # ## Stochastic Gradient Descent Regression
 
-# The sklearn library includes an SGDRegressor model in its linear_models module. To learn the parameters for the same model using this method, we need to first standardize the data because the gradient is sensitive to the scale. 
+# The sklearn library includes an SGDRegressor model in its linear_models module. To learn the parameters for the same model using this method, we need to first standardize the data because the gradient is sensitive to the scale.
 
 # ### Prepare data
-# 
-# The gradient is sensitive to scale and so is SGDRegressor. Use the `StandardScaler` or `scale` to adjust the features. 
+#
+# The gradient is sensitive to scale and so is SGDRegressor. Use the `StandardScaler` or `scale` to adjust the features.
 
 # We use StandardScaler() for this purpose that computes the mean and the standard deviation for each input variable during the fit step, and then subtracts the mean and divides by the standard deviation during the transform step that we can conveniently conduct in a single fit_transform() command:
 
@@ -216,12 +216,12 @@ X_ = scaler.fit_transform(X)
 # In[15]:
 
 
-sgd = SGDRegressor(loss='squared_loss', 
-                   fit_intercept=True, 
-                   shuffle=True, 
+sgd = SGDRegressor(loss='squared_loss',
+                   fit_intercept=True,
+                   shuffle=True,
                    random_state=42,
-                   learning_rate='invscaling', 
-                   eta0=0.01, 
+                   learning_rate='invscaling',
+                   eta0=0.01,
                    power_t=0.25)
 
 
@@ -264,4 +264,3 @@ resids.pow(2).sum().div(len(y)).pow(.5)
 resids.plot.scatter(x='sgd', y='ols')
 sns.despine()
 plt.tight_layout();
-

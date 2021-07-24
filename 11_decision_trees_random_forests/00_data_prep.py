@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # How to transform data into factors
 
-# Based on a conceptual understanding of key factor categories, their rationale and popular metrics, a key task is to identify new factors that may better capture the risks embodied by the return drivers laid out previously, or to find new ones. 
-# 
+# Based on a conceptual understanding of key factor categories, their rationale and popular metrics, a key task is to identify new factors that may better capture the risks embodied by the return drivers laid out previously, or to find new ones.
+#
 # In either case, it will be important to compare the performance of innovative factors to that of known factors to identify incremental signal gains.
 
 # We create the dataset here and store it in our [data](../../data) folder to facilitate reuse in later chapters.
@@ -210,9 +210,9 @@ by_ticker = prices.groupby('ticker', group_keys=False)
 
 
 def compute_atr(stock_data):
-    atr = ATR(stock_data.high, 
-              stock_data.low, 
-              stock_data.close, 
+    atr = ATR(stock_data.high,
+              stock_data.low,
+              stock_data.close,
               timeperiod=14)
     return atr.sub(atr.mean()).div(atr.std())
 
@@ -354,9 +354,9 @@ data.info()
 # ## Create monthly return series
 
 # To capture time series dynamics that reflect, for example, momentum patterns, we compute historical returns using the method `.pct_change(n_periods)`, that is, returns over various monthly periods as identified by lags.
-# 
+#
 # We then convert the wide result back to long format with the `.stack()` method, use `.pipe()` to apply the `.clip()` method to the resulting `DataFrame`, and winsorize returns at the [1%, 99%] levels; that is, we cap outliers at these percentiles.
-# 
+#
 # Finally, we normalize returns using the geometric average. After using `.swaplevel()` to change the order of the `MultiIndex` levels, we obtain compounded monthly returns for six periods ranging from 1 to 12 months:
 
 # In[40]:
@@ -384,7 +384,7 @@ for lag in lags:
                    .sub(1)
                    .to_frame(f'return_{lag}m')
                    )
-    
+
 returns = pd.concat(returns, axis=1).swaplevel()
 returns.info(null_counts=True)
 
@@ -440,8 +440,8 @@ len(data.index.unique('ticker'))
 
 
 factors = ['Mkt-RF', 'SMB', 'HML', 'RMW', 'CMA']
-factor_data = web.DataReader('F-F_Research_Data_5_Factors_2x3', 
-                             'famafrench', 
+factor_data = web.DataReader('F-F_Research_Data_5_Factors_2x3',
+                             'famafrench',
                              start=START)[0].drop('RF', axis=1)
 factor_data.index = factor_data.index.to_timestamp()
 factor_data = factor_data.resample('M').last().div(100)
@@ -469,8 +469,8 @@ factor_data.describe()
 T = 60
 betas = (factor_data
          .groupby(level='ticker', group_keys=False)
-         .apply(lambda x: PandasRollingOLS(window=min(T, x.shape[0]-1), 
-                                           y=x.return_1m, 
+         .apply(lambda x: PandasRollingOLS(window=min(T, x.shape[0]-1),
+                                           y=x.return_1m,
                                            x=x.drop('return_1m', axis=1)).beta)
         .rename(columns={'Mkt-RF': 'beta'}))
 
@@ -515,7 +515,7 @@ data.info()
 for lag in [3, 6, 12]:
     data[f'momentum_{lag}'] = data[f'return_{lag}m'].sub(data.return_1m)
     if lag > 3:
-        data[f'momentum_3_{lag}'] = data[f'return_{lag}m'].sub(data.return_3m)    
+        data[f'momentum_3_{lag}'] = data[f'return_{lag}m'].sub(data.return_3m)
 
 
 # ## Date Indicators
@@ -632,7 +632,3 @@ fig.subplots_adjust(top=.9)
 
 
 # In[ ]:
-
-
-
-

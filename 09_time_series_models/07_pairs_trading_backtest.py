@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Pair Trading: Backtest with Backtrader
@@ -556,4 +556,3 @@ pf.create_full_tear_sheet(returns,
                           transactions=transactions,
                           benchmark_rets=benchmark.loc[returns.index],
                           estimate_intraday=False)
-

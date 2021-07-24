@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Logistic Regression with Macro Data
@@ -110,10 +110,10 @@ result = model.fit()
 result.summary()
 
 
-# The LL-Null value of -136.42 is the result of the maximized log-likelihood function when only an intercept is included. It forms the basis for the pseudo-R2 statistic and the Log-Likelihood Ratio (LLR) test. 
+# The LL-Null value of -136.42 is the result of the maximized log-likelihood function when only an intercept is included. It forms the basis for the pseudo-R2 statistic and the Log-Likelihood Ratio (LLR) test.
 # The pseudo-R2 statistic is a substitute for the familiar R2 available under least squares. It is computed based on the ratio of the maximized log-likelihood function for the null model m0 and the full model m1 as follows:
 # The values vary from 0 (when the model does not improve the likelihood) to 1 where the model fits perfectly and the log-likelihood is maximized at 0. Consequently, higher values indicate a better fit.
-# 
+#
 
 # In[13]:
 
@@ -124,4 +124,3 @@ plt.axis('off')
 plt.tight_layout()
 plt.subplots_adjust(left=0.2, right=0.8, top=0.8, bottom=0.1)
 plt.savefig('logistic_example.png', bbox_inches='tight', dpi=300);
-

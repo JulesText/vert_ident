@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Testing the signal quality with Alphalens
@@ -199,7 +199,3 @@ create_summary_tear_sheet(factor_data)
 
 
 # In[ ]:
-
-
-
-

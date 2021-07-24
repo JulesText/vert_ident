@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # How to generate long-short trading signals with a Random Forest
@@ -379,8 +379,8 @@ n_cv_params
 sample_proportion = .5
 sample_size = int(sample_proportion * n_cv_params)
 
-cv_param_sample = np.random.choice(list(range(n_cv_params)), 
-                                     size=int(sample_size), 
+cv_param_sample = np.random.choice(list(range(n_cv_params)),
+                                     size=int(sample_size),
                                      replace=False)
 cv_params_ = [cv_params[i] for i in cv_param_sample]
 print('# CV parameters:', len(cv_params_))
@@ -425,8 +425,8 @@ n_test_params = len(test_params)
 sample_proportion = 1.0
 sample_size = int(sample_proportion * n_test_params)
 
-test_param_sample = np.random.choice(list(range(n_test_params)), 
-                                     size=int(sample_size), 
+test_param_sample = np.random.choice(list(range(n_test_params)),
+                                     size=int(sample_size),
                                      replace=False)
 test_params_ = [test_params[i] for i in test_param_sample]
 print('Train configs:', len(test_params_))
@@ -478,7 +478,7 @@ ic_cols = ['bagging_fraction',
 
 
 # Now we take the following steps:
-# - we iterate over the prediction horizons and train/test period length, 
+# - we iterate over the prediction horizons and train/test period length,
 # - set up the `MultipleTimeSeriesCV` accordingly
 # - create the binary LightGBM dataset with the appropriate target, and
 # - iterate over the model hyperparamters to train and validate the model while capturing the relevant performance metrics:
@@ -621,7 +621,7 @@ for t in lookaheads:
                                     var_name='rounds')
                             .set_index('date')
                             .apply(pd.to_numeric)
-                            .reset_index())            
+                            .reset_index())
 ic = pd.concat(ic, ignore_index=True)
 daily_ic = pd.concat(daily_ic, ignore_index=True)
 
@@ -633,7 +633,7 @@ daily_ic = pd.concat(daily_ic, ignore_index=True)
 # In[19]:
 
 
-group_cols = ['t','train_length', 'test_length', 
+group_cols = ['t','train_length', 'test_length',
               'bagging_fraction', 'feature_fraction', 'min_data_in_leaf']
 daily_ic_avg = daily_ic.groupby(group_cols + ['rounds']).daily_ic.mean().to_frame('ic').reset_index()
 daily_ic_avg.groupby('t', group_keys=False).apply(lambda x: x.nlargest(3, 'ic'))
@@ -701,8 +701,8 @@ def visualize_lr_result(model, ax):
         'date') & (coefs.variable != 'const')]
     coefs.variable = coefs.variable.str.split('_').str[-1]
 
-    coefs.plot(x='variable', y='coef', kind='bar', ax=ax, 
-               color='none', capsize=3, yerr='error', legend=False, rot=0)    
+    coefs.plot(x='variable', y='coef', kind='bar', ax=ax,
+               color='none', capsize=3, yerr='error', legend=False, rot=0)
     ax.set_ylabel('IC')
     ax.set_xlabel('')
     ax.scatter(x=pd.np.arange(len(coefs)), marker='_', s=120, y=coefs['coef'], color='black')
@@ -737,15 +737,15 @@ def visualize_lr_result(model, ax):
                 fontsize=11, ha='center', va='bottom',
                 bbox=dict(boxstyle='square', fc='white', ec='black'),
                 arrowprops=dict(arrowstyle='-[, widthB=3.4, lengthB=1.0', lw=1.0, color='black'))
-    
+
 
     ax.annotate('Min.\nSamples', xy=(.55, -0.1), xytext=(.55, -0.2),
                 xycoords='axes fraction',
                 textcoords='axes fraction',
                 fontsize=11, ha='center', va='bottom',
                 bbox=dict(boxstyle='square', fc='white', ec='black'),
-                arrowprops=dict(arrowstyle='-[, widthB=2.5, lengthB=1.0', lw=1.0, color='black'))    
-    
+                arrowprops=dict(arrowstyle='-[, widthB=2.5, lengthB=1.0', lw=1.0, color='black'))
+
     ax.annotate('Number of\nRounds', xy=(.8, -0.1), xytext=(.8, -0.2),
                 xycoords='axes fraction',
                 textcoords='axes fraction',
@@ -755,7 +755,7 @@ def visualize_lr_result(model, ax):
 
 
 # The below plot shows the regression coefficient values and their confidence intervals. The intercept (not shown) has a small positive value and is statistically signifant; it captures the impact of the dropped categories (the smallest value for each parameter).
-# 
+#
 # For 1-day forecasts, some but not all results are insightful: 21-day testing is better, and so is `min_samples_leaf` of 500 or 1,000. 100-200 trees seem to work best, but both shorter and longer training periods are better than intermediate values.
 
 # In[69]:
@@ -822,7 +822,7 @@ g = sns.catplot(x='rounds',
     kind='swarm');
 
 
-# ### Random Forest vs Linear Regression 
+# ### Random Forest vs Linear Regression
 
 # Let's compare the best-performing (in-sample) random forest models to our linear regression baseline:
 
@@ -906,7 +906,7 @@ for lookahead in [1, 5, 10, 21]:
                            label=data[label],
                            categorical_feature=categoricals,
                            free_raw_data=False)
-    
+
     for position in range(10):
         params, num_boost_round = get_params(daily_ic_avg,
                                              t=lookahead,
@@ -945,7 +945,7 @@ for lookahead in [1, 5, 10, 21]:
                                 .rename(columns={'prediction': position}))
         else:
             test_predictions[position] = pd.concat(predictions).prediction
-        
+
 
     by_day = test_predictions.groupby(level='date')
     for position in range(10):
@@ -958,7 +958,3 @@ for lookahead in [1, 5, 10, 21]:
 
 
 # In[ ]:
-
-
-
-

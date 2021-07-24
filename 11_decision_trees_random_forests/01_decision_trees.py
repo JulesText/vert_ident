@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # How to use decision trees to predict equity returns and price moves
 
-# In this notebook, we illustrate how to use tree-based models to gain insight and make predictions. 
-# 
+# In this notebook, we illustrate how to use tree-based models to gain insight and make predictions.
+#
 # To demonstrate regression trees we predict returns, and for the classification case, we return to the example of positive and negative asset price moves.
 
 # ## Imports & Settings
@@ -80,7 +80,7 @@ data.info()
 # ## Simple Regression Tree with Time Series Data
 
 # Regression trees make predictions based on the mean outcome value for the training samples assigned to a given node and typically rely on the mean-squared error to select optimal rules during recursive binary splitting.
-# 
+#
 # Given a training set, the algorithm iterates over the predictors, $X_1, X_2, ..., X_p$, and possible cutpoints, $s_1, s_2, ..., s_N$, to find an optimal combination. The optimal rule splits the feature space into two regions, $\{X\mid X_i < s_j\}$ and $\{X\mid X_i > s_j\}$, with values for the $X_i$ feature either below or above the $s_j$ threshold so that predictions based on the training subsets maximize the reduction of the squared residuals relative to the current node.
 
 # ### Generate two lags of monthly returns
@@ -150,8 +150,8 @@ reg_tree_t2.fit(X=X2, y=y2)
 
 # ### Visualize Tree
 
-# You can visualize the tree using the graphviz library (see GitHub for installation instructions) because sklearn can output a description of the tree using the .dot language used by that library. 
-# 
+# You can visualize the tree using the graphviz library (see GitHub for installation instructions) because sklearn can output a description of the tree using the .dot language used by that library.
+#
 # You can configure the output to include feature and class labels and limit the number of levels to keep the chart readable, as follows:
 
 # In[16]:
@@ -174,7 +174,7 @@ graphviz.Source(dot_data)
 # ### Compare with Linear Regression
 
 # The OLS summary below and a visualization of the first two levels of the decision tree above reveal the striking differences between the models. The OLS model provides three parameters for the intercepts and the two features in line with the linear assumption.
-# 
+#
 # In contrast, the regression tree chart above displays for each node of the first two levels the feature and threshold used to split the data (note that features can be used repeatedly), as well as the current value of the mean-squared error (MSE), the number of samples, and predicted value based on these training samples.
 
 # The tree chart also highlights the uneven distribution of samples across the nodes as the numbers vary between 31,000 and 65,000 samples after only two splits.
@@ -235,7 +235,7 @@ lin_reg.coef_
 # ### Linear Regression vs Regression Tree Decision Surfaces
 
 # To further illustrate the different assumptions about the functional form of the relationships between the input variables and the output, we can visualize current return predictions as a function of the feature space, that is, as a function of the range of values for the lagged returns. The following figure shows the current period return as a function of returns one and two periods ago for linear regression and the regression tree:
-# 
+#
 # The linear-regression model result on the right side underlines the linearity of the relationship between lagged and current returns, whereas the regression tree chart on the left illustrates the non-linear relationship encoded in the recursive partitioning of the feature space.
 
 # In[20]:
@@ -282,7 +282,7 @@ fig.subplots_adjust(top=.9);
 
 # When growing a classification tree, we also use recursive binary splitting but, instead of evaluating the quality of a decision rule using the reduction of the mean-squared error, we can use the classification error rate, which is simply the fraction of the training samples in a given (leave) node that do not belong to the most common class.
 
-# However, the alternative measures, Gini Index or Cross-Entropy, are preferred because they are more sensitive to node purity than the classification error rate. Node purity refers to the extent of the preponderance of a single class in a node. A node that only contains samples with outcomes belonging to a single class is pure and imply successful classification for this particular region of the feature space. 
+# However, the alternative measures, Gini Index or Cross-Entropy, are preferred because they are more sensitive to node purity than the classification error rate. Node purity refers to the extent of the preponderance of a single class in a node. A node that only contains samples with outcomes belonging to a single class is pure and imply successful classification for this particular region of the feature space.
 
 # In[22]:
 
@@ -305,15 +305,15 @@ def misclassification_rate(f):
     return np.where(f<=.5, f, 1-f)
 
 
-# Both the Gini Impurity and the Cross-Entropy measure take on smaller values when the class proportions approach zero or one, that is, when the child nodes become pure as a result of the split and are highest when the class proportions are even or 0.5 in the binary case. 
-# 
+# Both the Gini Impurity and the Cross-Entropy measure take on smaller values when the class proportions approach zero or one, that is, when the child nodes become pure as a result of the split and are highest when the class proportions are even or 0.5 in the binary case.
+#
 # The chart below visualizes the values assumed by these two measures and the misclassification error rates across the [0, 1] interval of proportions.
 
 # In[25]:
 
 
 x = np.linspace(0, 1, 10000)
-(pd.DataFrame({'Gini': gini(x), 
+(pd.DataFrame({'Gini': gini(x),
               'Entropy': entropy(x),
              'Misclassification Rate': misclassification_rate(x)}, index=x)
  .plot(title='Classification Loss Functions', lw=2, style=['-', '--', ':']))
@@ -458,7 +458,7 @@ log_reg_sk.fit(X=X2, y=y_binary)
 log_reg_sk.coef_
 
 
-# ### Decision Surfaces: Classifier Tree vs. Logistic Regression 
+# ### Decision Surfaces: Classifier Tree vs. Logistic Regression
 
 # In[42]:
 
@@ -491,7 +491,7 @@ fig.subplots_adjust(top=.9);
 # ## Regression Tree with all Features
 
 # We now train, visualize, and evaluate a regression tree with up to 5 consecutive splits using 80% of the samples for training to predict the remaining 20%.
-# 
+#
 # We are taking a shortcut here to simplify the illustration and use the built-in train_test_split, which does not protect against lookahead bias, as our custom iterator. The tree configuration implies up to $2^5=32$ leaf nodes that, on average in the balanced case, would contain over 4,300 of the training samples.
 
 # ### Train-Test Split
@@ -511,7 +511,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # ### Configure Tree
 
-# The output after training the model displays all the DecisionTreeClassifier parameters that we will address in more detail in the next section when we discuss parameter-tuning. 
+# The output after training the model displays all the DecisionTreeClassifier parameters that we will address in more detail in the next section when we discuss parameter-tuning.
 
 # In[45]:
 
@@ -540,7 +540,7 @@ regression_tree.fit(X=X_train, y=y_train)
 
 # ### Visualize Tree
 
-# The result shows that the model uses a variety of different features and indicates the split rules for both continuous and categorical (dummy) variables. 
+# The result shows that the model uses a variety of different features and indicates the split rules for both continuous and categorical (dummy) variables.
 
 # In[47]:
 
@@ -635,9 +635,9 @@ graphviz.Source(dot_data)
 
 # ### Evaluate Test Set
 
-# To evaluate the predictive accuracy of our first classification tree, we will use our test set to generate predicted class probabilities. 
-# 
-# The `.predict_proba()` method produces one probability for each class. In the binary class, these probabilities are complementary and sum to 1, so we only need the value for the positive class. 
+# To evaluate the predictive accuracy of our first classification tree, we will use our test set to generate predicted class probabilities.
+#
+# The `.predict_proba()` method produces one probability for each class. In the binary class, these probabilities are complementary and sum to 1, so we only need the value for the positive class.
 
 # In[56]:
 
@@ -674,7 +674,7 @@ def tree_to_code(tree, feature_names):
         model = 'reg'
     else:
         raise ValueError('Need Regression or Classification Tree')
-        
+
     tree_ = tree.tree_
     feature_name = [
         feature_names[i] if i != _tree.TREE_UNDEFINED else "undefined!"
@@ -709,7 +709,7 @@ tree_to_code(clf_tree_t2, X2.columns)
 # Decision trees have a strong tendency to overfit, especially when a dataset has a large number of features relative to the number of samples. As discussed in previous chapters, overfitting increases the prediction error because the model does not only learn the signal contained in the training data, but also the noise.
 # There are several ways to address the risk of overfitting.
 
-# Decision trees provide several regularization hyperparameters to limit the growth of a tree and the associated complexity. While every split increases the number of nodes, it also reduces the number of samples available per node to support a prediction. For each additional level, twice the number of samples is needed to populate the new nodes with the same sample density. 
+# Decision trees provide several regularization hyperparameters to limit the growth of a tree and the associated complexity. While every split increases the number of nodes, it also reduces the number of samples available per node to support a prediction. For each additional level, twice the number of samples is needed to populate the new nodes with the same sample density.
 
 # ### Decision Tree Parameters
 
@@ -730,10 +730,10 @@ tree_to_code(clf_tree_t2, X2.columns)
 # | class_weight             | None    | balanced: inversely proportional to class frequencies dict: {class_label: weight} list of dicts (for multi-output)                                                    | Weights associated with classes                                                                                                                                                                                         |
 
 # The `max_depth` parameter imposes a hard limit on the number of consecutive splits and represents the most straightforward way to cap the growth of a tree.
-# 
-# The m`in_samples_split` and `min_samples_leaf` parameters are alternative, data-driven ways to limit the growth of a tree. Rather than imposing a hard limit on the number of consecutive splits, these parameters control the minimum number of samples required to further split the data. The latter guarantees a certain number of samples per leaf, while the former can create very small leaves if a split results in a very uneven distribution. Small parameter values facilitate overfitting, while a high number may prevent the tree from learning the signal in the data. 
-# 
-# The default values are often quite low, and you should use cross-validation to explore a range of potential values. You can also use a float to indicate a percentage as opposed to an absolute number. 
+#
+# The m`in_samples_split` and `min_samples_leaf` parameters are alternative, data-driven ways to limit the growth of a tree. Rather than imposing a hard limit on the number of consecutive splits, these parameters control the minimum number of samples required to further split the data. The latter guarantees a certain number of samples per leaf, while the former can create very small leaves if a split results in a very uneven distribution. Small parameter values facilitate overfitting, while a high number may prevent the tree from learning the signal in the data.
+#
+# The default values are often quite low, and you should use cross-validation to explore a range of potential values. You can also use a float to indicate a percentage as opposed to an absolute number.
 
 # ### Cross-validation parameters
 
@@ -806,7 +806,7 @@ gridsearch_clf.fit(X=X, y=y_binary)
 
 
 # The training process produces some new attributes for our GridSearchCV object, most importantly the information about the optimal settings and the best cross-validation score (now using the proper setup that avoids lookahead bias).
-# 
+#
 # Setting `max_depth` to 10, `min_samples_leaf` to 750, and randomly selecting only a number corresponding to the square root of the total number of features when deciding on a split, produces the best results, with an AUC of 0.532:
 
 # In[67]:
@@ -878,10 +878,10 @@ pd.DataFrame({'Regression': pd.Series(gridsearch_reg.best_params_),
 
 # ### Classifier Cross-Validation
 
-# Cross-validation is the most important tool to obtain an unbiased estimate of the generalization error, which in turn permits an informed choice among the various configuration options. sklearn offers several tools to facilitate the process of cross-validating numerous parameter settings, namely the GridSearchCV convenience class that we will illustrate in the next section. 
+# Cross-validation is the most important tool to obtain an unbiased estimate of the generalization error, which in turn permits an informed choice among the various configuration options. sklearn offers several tools to facilitate the process of cross-validating numerous parameter settings, namely the GridSearchCV convenience class that we will illustrate in the next section.
 
-# The following code illustrates how to run cross-validation more manually to obtain custom tree attributes, such as the total number of nodes or leaf nodes associated with certain hyperparameter settings. 
-# 
+# The following code illustrates how to run cross-validation more manually to obtain custom tree attributes, such as the total number of nodes or leaf nodes associated with certain hyperparameter settings.
+#
 # The following function accesses the internal `.tree_` attribute to retrieve information about the total node count, and how many of these nodes are leaf nodes:
 
 # In[76]:
@@ -902,7 +902,7 @@ def get_leaves_count(tree):
 train_scores, val_scores, leaves = {}, {}, {}
 for max_depth in max_depths:
     print(max_depth, end=' ', flush=True)
-    clf = DecisionTreeClassifier(criterion='gini', 
+    clf = DecisionTreeClassifier(criterion='gini',
                                  max_depth=max_depth,
                                  min_samples_leaf=5,
                                  max_features='sqrt',
@@ -919,9 +919,9 @@ for max_depth in max_depths:
 
         test_pred = clf.predict_proba(X=X_test)[:, 1]
         val_score = roc_auc_score(y_score=test_pred, y_true=y_test)
-        val_scores[max_depth].append(val_score)    
+        val_scores[max_depth].append(val_score)
         leaves[max_depth].append(get_leaves_count(clf))
-        
+
 clf_train_scores = pd.DataFrame(train_scores)
 clf_valid_scores = pd.DataFrame(val_scores)
 clf_leaves = pd.DataFrame(leaves)
@@ -1019,9 +1019,9 @@ fig.subplots_adjust(top=.91)
 # ### Learning Curves for best models
 
 # A learning curve is a useful tool that displays how the validation and training score evolve as the number of training samples evolves.
-# 
+#
 # The purpose of the learning curve is to find out whether and how much the model would benefit from using more data during training. It is also useful to diagnose whether the model's generalization error is more likely driven by bias or variance.
-# 
+#
 # If, for example, both the validation score and the training score converge to a similarly low value despite an increasing training set size, the error is more likely due to bias, and additional training data is unlikely to help.
 
 # #### Classifier
@@ -1131,10 +1131,10 @@ fig.subplots_adjust(top=.9)
 
 # ### Feature Importance
 
-# Decision trees can not only be visualized to inspect the decision path for a given feature, but also provide a summary measure of the contribution of each feature to the model fit to the training data. 
-# 
-# The feature importance captures how much the splits produced by the feature helped to optimize the model's metric used to evaluate the split quality, which in our case is the Gini Impurity index. 
-# 
+# Decision trees can not only be visualized to inspect the decision path for a given feature, but also provide a summary measure of the contribution of each feature to the model fit to the training data.
+#
+# The feature importance captures how much the splits produced by the feature helped to optimize the model's metric used to evaluate the split quality, which in our case is the Gini Impurity index.
+#
 # A feature's importance is computed as the (normalized) total reduction of this metric and takes into account the number of samples affected by a split. Hence, features used earlier in the tree where the nodes tend to contain more samples typically are considered of higher importance.
 
 # In[88]:
@@ -1142,9 +1142,9 @@ fig.subplots_adjust(top=.9)
 
 top_n = 15
 labels = X.columns.str.replace('_', ' ').str.upper()
-fi_clf = (pd.Series(gridsearch_clf.best_estimator_.feature_importances_, 
+fi_clf = (pd.Series(gridsearch_clf.best_estimator_.feature_importances_,
                     index=labels).sort_values(ascending=False).iloc[:top_n])
-fi_reg = (pd.Series(gridsearch_reg.best_estimator_.feature_importances_, 
+fi_reg = (pd.Series(gridsearch_reg.best_estimator_.feature_importances_,
                     index=labels).sort_values(ascending=False).iloc[:top_n])
 
 
@@ -1161,4 +1161,3 @@ fig.suptitle(f'Top {top_n} Features', fontsize=14)
 sns.despine()
 fig.tight_layout()
 fig.subplots_adjust(top=.9);
-

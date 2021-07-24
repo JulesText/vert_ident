@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Alphalens Analysis
@@ -73,7 +73,7 @@ def get_factor(predictions):
             .dropna(how='all')
             .stack()
             .tz_localize('UTC', level='date')
-            .sort_index())    
+            .sort_index())
 
 
 # ## Linear Regression
@@ -176,4 +176,3 @@ lasso_factor_data.info()
 
 
 create_summary_tear_sheet(lasso_factor_data);
-

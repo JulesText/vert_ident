@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Predicting stock price moves with Logistic Regression
@@ -174,7 +174,7 @@ log_scores.groupby('C').auc.describe()
 
 def plot_ic_distribution(df, ax=None):
     if ax is not None:
-        sns.distplot(df.ic, ax=ax)    
+        sns.distplot(df.ic, ax=ax)
     else:
         ax = sns.distplot(df.ic)
     mean, median = df.ic.mean(), df.ic.median()
@@ -211,4 +211,3 @@ fig.suptitle('Logistic Regression', fontsize=14)
 sns.despine()
 fig.tight_layout()
 fig.subplots_adjust(top=.9);
-

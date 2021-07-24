@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Pairs Selection using Cointegration Tests & Kalman Filter
@@ -69,7 +69,7 @@ trace1_cv = critical_values[1][.95] # critical value for 1 cointegration relatio
 # In[39]:
 
 
-DATA_PATH = Path('..', 'data') 
+DATA_PATH = Path('..', 'data')
 STORE = DATA_PATH / 'assets.h5'
 
 
@@ -303,7 +303,7 @@ candidates.info()
 candidates.groupby('test_end').size().plot(figsize=(8, 5))
 
 
-# #### Most Common Pairs 
+# #### Most Common Pairs
 
 # In[31]:
 
@@ -324,11 +324,11 @@ with pd.HDFStore('backtest.h5') as store:
 
 
 counter = Counter()
-for s1, s2 in zip(candidates[candidates.joh_sig & candidates.eg_sig].y, 
+for s1, s2 in zip(candidates[candidates.joh_sig & candidates.eg_sig].y,
                   candidates[candidates.joh_sig & candidates.eg_sig].x):
     if s1 > s2:
         counter[(s2, s1)] += 1
-    else: 
+    else:
         counter[(s1, s2)] += 1
 
 
@@ -374,7 +374,7 @@ sns.despine()
 fig.tight_layout()
 
 
-# ## Get Entry and Exit Dates 
+# ## Get Entry and Exit Dates
 
 # ### Smooth prices using Kalman filter
 
@@ -383,7 +383,7 @@ fig.tight_layout()
 
 def KFSmoother(prices):
     """Estimate rolling mean"""
-    
+
     kf = KalmanFilter(transition_matrices=np.eye(1),
                       observation_matrices=np.eye(1),
                       initial_state_mean=0,
@@ -473,7 +473,7 @@ def get_spread(candidates, prices):
             pair['hedge_ratio'] = KFHedgeRatio(y=KFSmoother(prices.loc[t: T, y]),
                                                x=KFSmoother(prices.loc[t: T, x]))[:, 0]
             pair['spread'] = pair[y].add(pair[x].mul(pair.hedge_ratio))
-            half_life = estimate_half_life(pair.spread.loc[t: test_end])                
+            half_life = estimate_half_life(pair.spread.loc[t: test_end])
 
             spread = pair.spread.rolling(window=min(2 * half_life, max_window))
             pair['z_score'] = pair.spread.sub(spread.mean()).div(spread.std())
@@ -634,4 +634,3 @@ sns.despine()
 
 
 pair_trade_data.to_hdf('backtest.h5', 'pair_trades')
-

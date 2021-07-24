@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Statistical inference of stock returns with linear regression
@@ -185,4 +185,3 @@ target = 'target_21d'
 model = OLS(endog=y[target], exog=add_constant(X))
 trained_model = model.fit()
 print(trained_model.summary())
-

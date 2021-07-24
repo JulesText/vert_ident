@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Prediction stock returns with linear regression
@@ -150,7 +150,7 @@ class MultipleTimeSeriesCV:
 train_period_length = 63
 test_period_length = 10
 n_splits = int(3 * YEAR/test_period_length)
-lookahead =1 
+lookahead =1
 
 cv = MultipleTimeSeriesCV(n_splits=n_splits,
                           test_period_length=test_period_length,
@@ -270,7 +270,7 @@ cv = MultipleTimeSeriesCV(n_splits=n_splits,
                           train_period_length=train_period_length)
 
 
-# ### Run cross-validation with LinearRegression 
+# ### Run cross-validation with LinearRegression
 
 # In[18]:
 
@@ -663,4 +663,3 @@ fig.suptitle('Daily Information Coefficient by Model', fontsize=14)
 sns.despine()
 fig.tight_layout()
 fig.subplots_adjust(top=.9)
-

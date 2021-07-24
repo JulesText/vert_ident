@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Preparing Alpha Factors and Features to predict Stock Returns
@@ -203,7 +203,7 @@ plt.tight_layout();
 
 
 def compute_atr(stock_data):
-    df = ATR(stock_data.high, stock_data.low, 
+    df = ATR(stock_data.high, stock_data.low,
              stock_data.close, timeperiod=14)
     return df.sub(df.mean()).div(df.std())
 
@@ -421,4 +421,3 @@ j.annotate(pearsonr);
 
 j=sns.jointplot(x='macd', y=target, data=top100)
 j.annotate(pearsonr);
-

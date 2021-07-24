@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Vectorized Backtest
@@ -129,8 +129,8 @@ strategy.join(sp500).add(1).cumprod().sub(1).plot(ax=axes[0], title='Cumulative 
 sns.distplot(strategy.dropna(), ax=axes[1], hist=False, label='Strategy')
 sns.distplot(sp500, ax=axes[1], hist=False, label='SP500')
 axes[1].set_title('Daily Standard Deviation')
-axes[0].yaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.0%}'.format(y))) 
-axes[1].xaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.0%}'.format(y))) 
+axes[0].yaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.0%}'.format(y)))
+axes[1].xaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.0%}'.format(y)))
 sns.despine()
 fig.tight_layout();
 
@@ -151,4 +151,3 @@ res.std()
 
 
 res.corr()
-

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Backtesting with zipline - Pipeline API with Custom Data
@@ -265,7 +265,7 @@ def rebalance(context, data):
     s = (pd.Series({s: v.amount*v.last_sale_price for s,
                     v in positions.items()})
          .sort_values(ascending=False))
-    
+
     for stock, trade in context.trades.items():
         if trade == 0:
             order_target(stock, target=0)
@@ -341,9 +341,9 @@ returns, positions, transactions = pf.utils.extract_rets_pos_txn_from_zipline(re
 # In[24]:
 
 
-benchmark = web.DataReader('NIKKEI225', 
-                           'fred', 
-                           start='2015', 
+benchmark = web.DataReader('NIKKEI225',
+                           'fred',
+                           start='2015',
                            end='2020').squeeze()
 benchmark = benchmark.pct_change().tz_localize('UTC')
 
@@ -375,16 +375,12 @@ fig.savefig((results_path / 'pyfolio_out_of_sample').as_posix(), dpi=300);
 # In[30]:
 
 
-pf.create_full_tear_sheet(returns, 
-                          positions=positions, 
+pf.create_full_tear_sheet(returns,
+                          positions=positions,
                           transactions=transactions,
                           benchmark_rets=benchmark,
-                          live_start_date='2018-01-01', 
+                          live_start_date='2018-01-01',
                           round_trips=True)
 
 
 # In[ ]:
-
-
-
-

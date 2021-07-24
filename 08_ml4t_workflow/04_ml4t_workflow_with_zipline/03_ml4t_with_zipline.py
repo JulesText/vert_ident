@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # ML4T Workflow with zipline
 
-# We can also integrate the model training into our backtest. The goal is to replicate the daily return predictions we used in [backtesting_with_zipline](02_backtesting_with_zipline.ipynb) and generated in [Chapter 7](../../07_linear_models). 
-# 
+# We can also integrate the model training into our backtest. The goal is to replicate the daily return predictions we used in [backtesting_with_zipline](02_backtesting_with_zipline.ipynb) and generated in [Chapter 7](../../07_linear_models).
+#
 # We will, however, use a few additional Pipeline factors to illustrate their usage. The principal new element is a CustomFactor that receives features and returns as inputs to train a model and produce predictions. We follow the workflow displayed in the following figure:
-# 
+#
 # ![ML4T with Zipline](../../assets/zip_pipe_model_flow.png "ML4T Workflow with Zipline")
 
 # ## Imports and Settings
@@ -98,7 +98,7 @@ N_FORWARD_DAYS = 1
 
 # How often to trade; align with prediction horizon
 # for weekly, set to date_rules.week_start(days_offset=1)
-TRADE_FREQ = date_rules.every_day()  
+TRADE_FREQ = date_rules.every_day()
 
 
 # In[6]:
@@ -151,7 +151,7 @@ class Vol_3M(CustomFactor):
 
 class Mean_Reversion_1M(CustomFactor):
     # standardized difference between latest monthly return
-    # and their annual average 
+    # and their annual average
     inputs = [Returns(window_length=21)]
     window_length = 252
 
@@ -258,7 +258,7 @@ features = {
 # ## ML CustomFactor
 
 # Our `CustomFactor` called LinearModel will have the `StandardScaler` and a stochastic gradient descent (SGD) implementation of ridge regression as instance attributes, and we will train the model on three days a week.
-# 
+#
 # - The `compute` method generates predictions (addressing potential missing values), but first checks if the model should be trained.
 # - The `_train_model` method is the centerpiece of the puzzle. It shifts the returns and aligns the resulting forward returns with the Factor features, removing missing values in the process. It scales the remaining data points and trains the linear SGDRegressor.
 
@@ -367,7 +367,7 @@ def initialize(context):
     """
     Called once at the start of the algorithm.
     """
-    
+
     set_slippage(slippage.FixedSlippage(spread=0.00))
     set_commission(commission.PerShare(cost=0, min_trade_cost=0))
 
@@ -473,7 +473,7 @@ def rebalance(context, data):
     for position in context.portfolio.positions:
         if position not in targets:
             order_target(position, 0)
-    
+
     n_longs, n_shorts = len(longs), len(shorts)
     if n_longs > MIN_POSITIONS and n_shorts > MIN_POSITIONS:
         for stock in longs:
@@ -530,9 +530,9 @@ axes = (results[['ic', 'returns_spread_bps']]
         .dropna()
         .rolling(21)
         .mean()
-        .plot(subplots=True, 
-              layout=(2,1), 
-              figsize=(14, 6), 
+        .plot(subplots=True,
+              layout=(2,1),
+              figsize=(14, 6),
               title=['Informmation Coefficient (21-day Rolling Avg.)', 'Returns Spread (bps, 21-day Rolling Avg.)'],
               legend=False))
 axes = axes.flatten()
@@ -587,16 +587,12 @@ fig.tight_layout();
 # In[30]:
 
 
-pf.create_full_tear_sheet(returns, 
-                          positions=positions, 
+pf.create_full_tear_sheet(returns,
+                          positions=positions,
                           transactions=transactions,
                           benchmark_rets=benchmark,
-                          live_start_date='2017-01-01', 
+                          live_start_date='2017-01-01',
                           round_trips=True)
 
 
 # In[ ]:
-
-
-
-

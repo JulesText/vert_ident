@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # How bagging lowers model variance
@@ -47,9 +47,9 @@ if not results_path.exists():
 # ## Bagged Decision Trees
 
 # To apply bagging to decision trees, we create bootstrap samples from our training data by repeatedly sampling with replacement, then train one decision tree on each of these samples, and create an ensemble prediction by averaging over the predictions of the different trees.
-# 
+#
 # Bagged decision trees are usually grown large, that is, have many levels and leaf nodes and are not pruned so that each tree has low bias but high variance. The effect of averaging their predictions then aims to reduce their variance. Bagging has been shown to substantially improve predictive performance by constructing ensembles that combine hundreds or even thousands of trees trained on bootstrap samples.
-# 
+#
 # To illustrate the effect of bagging on the variance of a regression tree, we can use the `BaggingRegressor` meta-estimator provided by `sklearn`. It trains a user-defined base estimator based on parameters that specify the sampling strategy:
 
 # - `max_samples` and `max_features` control the size of the subsets drawn from the rows and the columns, respectively
@@ -73,9 +73,9 @@ plt.tight_layout();
 # ## Simulate Training
 
 # The following example uses the preceding exponential function `f(x)` to generate training samples for a single DecisionTreeRegressor and a BaggingRegressor ensemble that consists of ten trees, each grown ten levels deep. Both models are trained on the random samples and predict outcomes for the actual function with added noise.
-# 
+#
 # Since we know the true function, we can decompose the mean-squared error into bias, variance, and noise, and compare the relative size of these components for both models according to the following breakdown:
-# 
+#
 # For 100 repeated random training and test samples of 250 and 500 observations each, we find that the variance of the predictions of the individual decision tree is almost twice as high as that for the small ensemble of 10 bagged trees based on bootstrapped samples:
 
 # In[6]:
@@ -165,7 +165,7 @@ for i, (model, data) in enumerate(predictions.items()):
     kwargs = {'transform': axes[i].transAxes, 'fontsize':10}
     axes[i].text(x=.8, y=.9, s=f'Bias: {m.bias:.2%}', **kwargs)
     axes[i].text(x=.75, y=.8, s=f'Variance: {m.variance:.2%}', **kwargs)
-    
+
     (r.drop('error', axis=1).sort_index()
      .rename(columns=str.capitalize)
      .plot(ax=axes[i+2], lw=1, legend=False, stacked=True, ylim=(0, .4)))
@@ -175,4 +175,3 @@ fig.suptitle('Bias-Variance Breakdown', fontsize=14)
 sns.despine()
 fig.tight_layout()
 fig.subplots_adjust(top=.93);
-

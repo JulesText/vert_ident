@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Backtesting an ML strategy with Backtrader
@@ -159,7 +159,7 @@ class MLStrategy(bt.Strategy):
         shorts = sorted(down, key=down.get)[:self.p.n_positions]
         longs = sorted(up, key=up.get, reverse=True)[:self.p.n_positions]
         n_shorts, n_longs = len(shorts), len(longs)
-        
+
         # only take positions if at least min_n longs and shorts
         if n_shorts < self.p.min_positions or n_longs < self.p.min_positions:
             longs, shorts = [], []
@@ -212,7 +212,7 @@ for ticker in tickers:
 
 
 cerebro.addanalyzer(bt.analyzers.PyFolio, _name='pyfolio')
-cerebro.addstrategy(MLStrategy, n_positions=25, min_positions=20, 
+cerebro.addstrategy(MLStrategy, n_positions=25, min_positions=20,
                     verbose=True, log_file='bt_log.csv')
 start = time()
 results = cerebro.run()
@@ -302,7 +302,3 @@ pf.create_full_tear_sheet(returns,
 
 
 # In[ ]:
-
-
-
-

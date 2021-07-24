@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Japanese Equity Data - Feature Engineering
@@ -59,7 +59,7 @@ prices = (pd.read_hdf(DATA_DIR / 'assets.h5', 'stooq/jp/tse/stocks/prices')
 # In[7]:
 
 
-prices.info(null_counts=True)    
+prices.info(null_counts=True)
 
 
 # In[8]:
@@ -153,7 +153,7 @@ max_ret_by_sym.describe(percentiles=sorted(percentiles)[6:])
 quantiles = max_ret_by_sym.quantile(.95)
 to_drop = []
 for ret, q in quantiles.items():
-    to_drop.extend(max_ret_by_sym[max_ret_by_sym[ret]>q].index.tolist()) 
+    to_drop.extend(max_ret_by_sym[max_ret_by_sym[ret]>q].index.tolist())
 
 
 # In[19]:
@@ -305,4 +305,3 @@ data.info(null_counts=True)
 
 
 data.to_hdf('data.h5', 'stooq/japan/equities')
-

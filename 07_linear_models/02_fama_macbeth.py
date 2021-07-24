@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # How to build a linear factor model
@@ -6,7 +6,7 @@
 # Algorithmic trading strategies use linear factor models to quantify the relationship between the return of an asset and the sources of risk that represent the main drivers of these returns. Each factor risk carries a premium, and the total asset return can be expected to correspond to a weighted average of these risk premia.
 
 # There are several practical applications of factor models across the portfolio management process from construction and asset selection to risk management and performance evaluation. The importance of factor models continues to grow as common risk factors are now tradeable:
-# 
+#
 # - A summary of the returns of many assets by a much smaller number of factors reduces the amount of data required to estimate the covariance matrix when optimizing a portfolio
 # - An estimate of the exposure of an asset or a portfolio to these factors allows for the management of the resultant risk, for instance by entering suitable hedges when risk factors are themselves traded
 # - A factor model also permits the assessment of the incremental signal content of new alpha factors
@@ -48,8 +48,8 @@ sns.set_style('whitegrid')
 
 # ### Risk Factors
 
-# In particular, we will be using the five Fama—French factors that result from sorting stocks first into three size groups and then into two for each of the remaining three firm-specific factors. 
-# 
+# In particular, we will be using the five Fama—French factors that result from sorting stocks first into three size groups and then into two for each of the remaining three firm-specific factors.
+#
 # Hence, the factors involve three sets of value-weighted portfolios formed as 3 x 2 sorts on size and book-to-market, size and operating profitability, and size and investment. The risk factor values computed as the average returns of the portfolios (PF) as outlined in the following table:
 
 # | Label | Name                          | Description                                                                                                                                                                               |
@@ -80,8 +80,8 @@ ff_factor_data.describe()
 
 # ### Portfolios
 
-# Fama and French also make available numerous portfolios that we can illustrate the estimation of the factor exposures, as well as the value of the risk premia available in the market for a given time period. We will use a panel of the 17 industry portfolios at a monthly frequency. 
-# 
+# Fama and French also make available numerous portfolios that we can illustrate the estimation of the factor exposures, as well as the value of the risk premia available in the market for a given time period. We will use a panel of the 17 industry portfolios at a monthly frequency.
+#
 # We will subtract the risk-free rate from the returns because the factor model works with excess returns:
 
 # In[6]:
@@ -173,17 +173,17 @@ ff_factor_data.info()
 
 
 # To address the inference problem caused by the correlation of the residuals, Fama and MacBeth proposed a two-step methodology for a cross-sectional regression of returns on factors. The two-stage Fama—Macbeth regression is designed to estimate the premium rewarded for the exposure to a particular risk factor by the market. The two stages consist of:
-# 
+#
 # - First stage: N time-series regression, one for each asset or portfolio, of its excess returns on the factors to estimate the factor loadings.
-# 
+#
 # - Second stage: T cross-sectional regression, one for each time period, to estimate the risk premium.
-# 
+#
 # See corresponding section in Chapter 7 of [Machine Learning for Trading](https://www.amazon.com/Hands-Machine-Learning-Algorithmic-Trading-ebook/dp/B07JLFH7C5/ref=sr_1_2?ie=UTF8&qid=1548455634&sr=8-2&keywords=machine+learning+algorithmic+trading) for details.
 
 # Now we can compute the factor risk premia as the time average and get t-statistic to assess their individual significance, using the assumption that the risk premia estimates are independent over time.
-# 
-# If we had a very large and representative data sample on traded risk factors we could use the sample mean as a risk premium estimate. However, we typically do not have a sufficiently long history to and the margin of error around the sample mean could be quite large. 
-# 
+#
+# If we had a very large and representative data sample on traded risk factors we could use the sample mean as a risk premium estimate. However, we typically do not have a sufficiently long history to and the margin of error around the sample mean could be quite large.
+#
 # The Fama—Macbeth methodology leverages the covariance of the factors with other assets to determine the factor premia. The second moment of asset returns is easier to estimate than the first moment, and obtaining more granular data improves estimation considerably, which is not true of mean estimation.
 
 # ### Step 1: Factor Exposures
@@ -195,7 +195,7 @@ ff_factor_data.info()
 
 betas = []
 for industry in ff_portfolio_data:
-    step1 = OLS(endog=ff_portfolio_data.loc[ff_factor_data.index, industry], 
+    step1 = OLS(endog=ff_portfolio_data.loc[ff_factor_data.index, industry],
                 exog=add_constant(ff_factor_data)).fit()
     betas.append(step1.params.drop('const'))
 
@@ -203,8 +203,8 @@ for industry in ff_portfolio_data:
 # In[18]:
 
 
-betas = pd.DataFrame(betas, 
-                     columns=ff_factor_data.columns, 
+betas = pd.DataFrame(betas,
+                     columns=ff_factor_data.columns,
                      index=ff_portfolio_data.columns)
 betas.info()
 
@@ -218,7 +218,7 @@ betas.info()
 
 lambdas = []
 for period in ff_portfolio_data.index:
-    step2 = OLS(endog=ff_portfolio_data.loc[period, betas.index], 
+    step2 = OLS(endog=ff_portfolio_data.loc[period, betas.index],
                 exog=betas).fit()
     lambdas.append(step2.params)
 
@@ -226,7 +226,7 @@ for period in ff_portfolio_data.index:
 # In[20]:
 
 
-lambdas = pd.DataFrame(lambdas, 
+lambdas = pd.DataFrame(lambdas,
                        index=ff_portfolio_data.index,
                        columns=betas.columns.tolist())
 lambdas.info()
@@ -283,7 +283,7 @@ plt.tight_layout()
 # In[25]:
 
 
-mod = LinearFactorModel(portfolios=ff_portfolio_data, 
+mod = LinearFactorModel(portfolios=ff_portfolio_data,
                         factors=ff_factor_data)
 res = mod.fit()
 print(res)
@@ -301,4 +301,3 @@ print(res.full_summary)
 
 
 lambdas.mean()
-

@@ -1,22 +1,22 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Backtesting with zipline - Pipeline API with Custom Data
 
-# The [Pipeline API](https://www.quantopian.com/docs/user-guide/tools/pipeline) facilitates the definition and computation of alpha factors for a cross-section of securities from historical data. The Pipeline significantly improves efficiency because it optimizes computations over the entire backtest period rather than tackling each event separately. In other words, it continues to follow an event-driven architecture but vectorizes the computation of factors where possible. 
-# 
+# The [Pipeline API](https://www.quantopian.com/docs/user-guide/tools/pipeline) facilitates the definition and computation of alpha factors for a cross-section of securities from historical data. The Pipeline significantly improves efficiency because it optimizes computations over the entire backtest period rather than tackling each event separately. In other words, it continues to follow an event-driven architecture but vectorizes the computation of factors where possible.
+#
 # A Pipeline uses Factors, Filters, and Classifiers classes to define computations that produce columns in a table with PIT values for a set of securities. Factors take one or more input arrays of historical bar data and produce one or more outputs for each security. There are numerous built-in factors, and you can also design your own `CustomFactor` computations.
-# 
+#
 # The following figure depicts how loading the data using the `DataFrameLoader`, computing the predictive `MLSignal` using the Pipeline API, and various scheduled activities integrate with the overall trading algorithm executed via the `run_algorithm()` function. We go over the details and the corresponding code in this section.
-# 
+#
 # ![The Pipeline Workflow](../../assets/zip_pipe_flow.png)
-# 
-# You need to register your Pipeline with the `initialize()` method and can then execute it at each time step or on a custom schedule. Zipline provides numerous built-in computations such as moving averages or Bollinger Bands that can be used to quickly compute standard factors, but it also allows for the creation of custom factors as we will illustrate next. 
-# 
+#
+# You need to register your Pipeline with the `initialize()` method and can then execute it at each time step or on a custom schedule. Zipline provides numerous built-in computations such as moving averages or Bollinger Bands that can be used to quickly compute standard factors, but it also allows for the creation of custom factors as we will illustrate next.
+#
 # Most importantly, the Pipeline API renders alpha factor research modular because it separates the alpha factor computation from the remainder of the algorithm, including the placement and execution of trade orders and the bookkeeping of portfolio holdings, values, and so on.
 
 # The goal is to combine the daily return predictions with the OHCLV data from our Quandl bundle and then to go long on up to 10 equities with the highest predicted returns and short on those with the lowest predicted returns, requiring at least five stocks on either side similar to the backtrader example above. See comments in the notebook for implementation details.
-# 
+#
 
 # ## Imports & Settings
 
@@ -177,8 +177,8 @@ signal_loader = {SignalData.predictions:
 
 # ## Pipeline Setup
 
-# Our Pipeline is going to have two Boolean columns that identify the assets we would like to trade as long and short positions. 
-# 
+# Our Pipeline is going to have two Boolean columns that identify the assets we would like to trade as long and short positions.
+#
 # To get there, we first define a `CustomFactor` called `MLSignal` that just receives the current `SignalData.predictions`. The motivation is to allow us to use some of the convenient `Factor` methods designed to rank and filter securities.
 
 # ### Custom ML Factor
@@ -310,7 +310,7 @@ def record_vars(context, data):
 
 # ## Run Algorithm
 
-# At this point, we have defined all ingredients for the algorithm and are ready to call `run_algorithm()` with the desired `start` and `end` dates, references to the various functions we just created, and the `custom_loader` to ensure our model predictions are available to the backtest. 
+# At this point, we have defined all ingredients for the algorithm and are ready to call `run_algorithm()` with the desired `start` and `end` dates, references to the various functions we just created, and the `custom_loader` to ensure our model predictions are available to the backtest.
 
 # In[18]:
 
@@ -388,10 +388,9 @@ fig.tight_layout();
 # In[25]:
 
 
-pf.create_full_tear_sheet(returns, 
-                          positions=positions, 
+pf.create_full_tear_sheet(returns,
+                          positions=positions,
                           transactions=transactions,
                           benchmark_rets=benchmark,
-                          live_start_date=LIVE_DATE, 
+                          live_start_date=LIVE_DATE,
                           round_trips=True)
-

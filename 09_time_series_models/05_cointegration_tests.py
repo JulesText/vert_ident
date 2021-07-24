@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 # coding: utf-8
 
 # # Cointegration Tests
@@ -160,7 +160,7 @@ def get_ticker_dict():
 names = get_ticker_dict()
 
 
-# ## Visualize Correlation Clusters 
+# ## Visualize Correlation Clusters
 
 # In[14]:
 
@@ -309,7 +309,7 @@ def compute_pair_metrics(security, candidates):
         # Engle-Granger Tests
         t1, p1 = coint(security, prices, trend='c')[:2]
         t2, p2 = coint(prices, security, trend='c')[:2]
-        tests.append([ticker, candidate, t1, p1, t2, p2, 
+        tests.append([ticker, candidate, t1, p1, t2, p2,
                       k_ar_diff, *cj0.lr1])
     columns = ['s1', 's2', 't1', 'p1', 't2', 'p2', 'k_ar_diff', 'trace0', 'trace1']
     tests = pd.DataFrame(tests, columns=columns).set_index('s2')
@@ -388,8 +388,8 @@ spreads = spreads.reset_index()
 # In[42]:
 
 
-sns.scatterplot(x=np.log1p(spreads.t.abs()), 
-                y=np.log1p(spreads.trace1), 
+sns.scatterplot(x=np.log1p(spreads.t.abs()),
+                y=np.log1p(spreads.trace1),
                 hue='coint', data=spreads[spreads.trace0>trace0_cv]);
 
 
@@ -468,7 +468,7 @@ kf = StratifiedKFold(n_splits=5, shuffle=True)
 # In[54]:
 
 
-log_reg = LogisticRegressionCV(Cs=np.logspace(-10, 10, 21), 
+log_reg = LogisticRegressionCV(Cs=np.logspace(-10, 10, 21),
                                class_weight='balanced',
                                scoring='roc_auc')
 
@@ -529,7 +529,7 @@ f'{decision_tree.best_score_:.2%}, Depth: {decision_tree.best_params_["max_depth
 # In[65]:
 
 
-pd.Series(data=decision_tree.best_estimator_.feature_importances_, 
+pd.Series(data=decision_tree.best_estimator_.feature_importances_,
           index=X.columns).sort_values().plot.barh(title='Feature Importance')
 sns.despine();
 
@@ -543,8 +543,7 @@ spreads.assign(y_pred=decision_tree.predict_proba(X)[:, 1]).groupby(spreads.coin
 # In[64]:
 
 
-sns.catplot(x='coint', 
-            y='y_pred', 
-            data=spreads.assign(y_pred=decision_tree.predict_proba(X)[:, 1]), 
+sns.catplot(x='coint',
+            y='y_pred',
+            data=spreads.assign(y_pred=decision_tree.predict_proba(X)[:, 1]),
             kind='box');
-
