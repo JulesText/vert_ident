@@ -5,6 +5,15 @@
 .ftpignore
 error_log
 
+# potentially large files
+*.csv
+*.zip
+data.h5
+assets.h5
+data.npy
+backtest.h5
+sklearn_gbm_gridsearch.joblib
+
 # unwanted system files created by osx or windows
 # Compiled source #
 *.com
