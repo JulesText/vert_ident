@@ -14,6 +14,9 @@ data.npy
 backtest.h5
 sklearn_gbm_gridsearch.joblib
 
+# python virtual environment
+py_env/
+
 # unwanted system files created by osx or windows
 # Compiled source #
 *.com
