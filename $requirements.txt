@@ -9,4 +9,3 @@ TensorFlow
 PyTorch
 seaborn
 statsmodels
- 
